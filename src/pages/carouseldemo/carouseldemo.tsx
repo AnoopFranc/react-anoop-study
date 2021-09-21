@@ -1,11 +1,12 @@
 import { Carousel, FlexBoxTitleCard } from "../../components"
-
+import {LinkedinShareButton} from 'react-share'
 export const CAROUSELDEMO = () => {
     return(
         <div>
             <Carousel
             heading="demo"
-            g="24px"
+            n={2}
+            g="12px"
             >
              {[...Array(10)].map((_val,index) => {
                     return(
@@ -16,6 +17,12 @@ export const CAROUSELDEMO = () => {
                     )
                 })}
             </Carousel>
+            <LinkedinShareButton
+                title="ssss"
+                summary="anoop"
+                source="123"  url={`https://www.dev-kibwebsite.regovdevservices.com/`}>
+                    <p>hi</p>
+                </LinkedinShareButton>
         </div>
     )
 }

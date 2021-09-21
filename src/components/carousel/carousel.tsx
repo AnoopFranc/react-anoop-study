@@ -16,7 +16,7 @@ export const Carousel = (props:CarouselProps) => {
     
     const scrollToNextElement= () => {
         if(carouselRef.current){
-            if(active < carouselRef.current.childNodes.length - 1){
+            if(active < carouselRef.current.childNodes.length - (props.n?props.n:3)){
                 carouselRef.current.scrollLeft = (carouselRef.current.childNodes[active + 1] as HTMLElement).offsetLeft - (carouselRef.current.parentNode as HTMLElement).offsetLeft;
                 setActive(active +1)
             }
