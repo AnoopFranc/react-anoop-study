@@ -37,3 +37,8 @@ code {
 .flex_row {
   display: flex;
 }
+
+.ash {
+  padding: 5vw;
+  background: #edf0f4;
+}
