@@ -70,10 +70,22 @@ app.get('/article/:id', async(req,res) => {
 
 app.use(express.static(path.resolve(__dirname)));
 
-// app.get('*', function(request, response) {
-//     const filePath = path.resolve(__dirname, 'index.html');
-//     response.sendFile(filePath);
-//   });
+app.get('*', function(req, res) {
+    try {
+        let htmlData = readIndexHtml() 
+        // console.log('data',htmlData)
+        // console.log(indexFile)
+        if(htmlData !== 'error'){
+            htmlData = (htmlData)
+            .replace(/\$OG_TITLE/g, "title")
+            .replace(/\$OG_DESCRIPTION/g, "description")
+        }
+        return res.send(htmlData);  
+    } catch (error) {
+        console.log('erro while reading ' , error)
+        return res.status(404).end()
+    }
+  });
 
 app.listen(PORT, () => {
     return console.log(`server is  listening on ${PORT}`);
