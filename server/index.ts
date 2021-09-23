@@ -9,10 +9,10 @@ import { getArticle } from "../src/api";
 const app = express();
 
 
-app.use(express.static("public"));
 const PORT = process.env.PORT || 3006;
 
-const indexPath = path.resolve(__dirname,'..','public','index.html')
+// const indexPath = path.resolve(__dirname,'..','public','index.html')
+const indexPath = path.resolve(__dirname, './build', 'index.html');
 
 const readIndexHtml = () => {
     let response
@@ -31,9 +31,8 @@ app.get('/',(req,res) => {
     try {
         let htmlData = readIndexHtml()  
         htmlData = (htmlData  as string)
-        .replace('__META_OG_TITLE__', "title")
-        .replace('__META_OG_DESCRIPTION__', "description")
-        .replace('__META_DESCRIPTION__', "desc")  
+        .replace(/\$OG_TITLE/g, "title")
+        .replace(/\$OG_DESCRIPTION/g, "description")
         return res.send(htmlData);  
     } catch (error) {
         console.log('erro while reading ' , error)
@@ -49,9 +48,8 @@ app.get('/article/:id', async(req,res) => {
         try {
             let htmlData = readIndexHtml()  
             htmlData = (htmlData  as string)
-            .replace('__META_OG_TITLE__', response.data['heading'])
-            .replace('__META_OG_DESCRIPTION__', response.data['shortDescription'])
-            .replace('__META_DESCRIPTION__', response.data['shortDescription'])   
+            .replace(/\$OG_TITLE/g, response.data['heading'])
+            .replace(/\$OG_DESCRIPTION/g, response.data['shortDescription'])
             return res.send(htmlData);  
         } catch (error) {
             console.log('erro while reading ' , error)
@@ -63,6 +61,13 @@ app.get('/article/:id', async(req,res) => {
     }
 
 })
+
+app.use(express.static(path.resolve(__dirname, './build')));
+
+app.get('*', function(request, response) {
+    const filePath = path.resolve(__dirname, './build', 'index.html');
+    response.sendFile(filePath);
+  });
 
 app.listen(PORT, () => {
     return console.log(`server is  listening on ${PORT}`);
