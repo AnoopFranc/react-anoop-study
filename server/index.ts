@@ -18,23 +18,20 @@ const PORT = process.env.PORT || 3006;
 // const indexPath = path.resolve(__dirname, './build', 'index.html');
 const indexFile = path.resolve(__dirname,'./index.html');
 const readIndexHtml = () => {
-    let response:string = ''
-    fs.readFile(indexFile,'utf8',(err,html) => {
-        if(err) {
-            console.error('Error during file reading', err);
-            // return res.status(404).end()
-            response = 'error'
-            // return response
-        }else {
-            response = html
-        }
-})
-        return response
+    try {
+        let response = fs.readFileSync(indexFile,'utf8')
+        return response        
+    } catch (error) {
+        return 'error'
+    }
+
 }
 
 app.get('/',(req,res) => {
     try {
         let htmlData = readIndexHtml() 
+        // console.log('data',htmlData)
+        // console.log(indexFile)
         if(htmlData !== 'error'){
             htmlData = (htmlData)
             .replace(/\$OG_TITLE/g, "title")
@@ -73,10 +70,10 @@ app.get('/article/:id', async(req,res) => {
 
 app.use(express.static(path.resolve(__dirname)));
 
-app.get('*', function(request, response) {
-    const filePath = path.resolve(__dirname, 'index.html');
-    response.sendFile(filePath);
-  });
+// app.get('*', function(request, response) {
+//     const filePath = path.resolve(__dirname, 'index.html');
+//     response.sendFile(filePath);
+//   });
 
 app.listen(PORT, () => {
     return console.log(`server is  listening on ${PORT}`);
