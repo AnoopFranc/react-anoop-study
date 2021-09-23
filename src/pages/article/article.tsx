@@ -40,6 +40,7 @@ export const ArticlePage = () => {
 
     return(
         <div>
+          <p>HIIIIII</p>
             <p>{articledata.heading}</p>
             <p>{articledata.date}</p>
             <div dangerouslySetInnerHTML =  {{__html: articledata.content}}></div>

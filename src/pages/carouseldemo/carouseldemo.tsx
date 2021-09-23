@@ -1,5 +1,4 @@
 import { Carousel, FlexBoxTitleCard } from "../../components"
-import {LinkedinShareButton} from 'react-share'
 export const CAROUSELDEMO = () => {
     return(
         <div>
@@ -17,12 +16,6 @@ export const CAROUSELDEMO = () => {
                     )
                 })}
             </Carousel>
-            <LinkedinShareButton
-                title="ssss"
-                summary="anoop"
-                source="123"  url={`https://www.dev-kibwebsite.regovdevservices.com/`}>
-                    <p>hi</p>
-                </LinkedinShareButton>
         </div>
     )
 }
