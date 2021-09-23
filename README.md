@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+create a .env file in root with value `SKIP_PREFLIGHT_CHECK=true` this is to escape the error `There might be a problem with the project dependency tree"` caused by webpack installed by create react app and webpack installed for running server
+
 ## Available Scripts
 
 In the project directory, you can run:
