@@ -3,9 +3,9 @@ import React from "react";
 import {renderToString} from "react-dom/server";
 import App from '../src/App'
 
-import axios  from "axios";
 import * as path from 'path';
 import * as fs from 'fs'
+import { getArticle } from "../src/api";
 const app = express();
 
 
@@ -31,10 +31,9 @@ app.get('/',(req,res) => {
     try {
         let htmlData = readIndexHtml()  
         htmlData = (htmlData  as string)
-        .replace('__META_OG_TITLE__', "fifa")
-        .replace('__META_OG_DESCRIPTION__', "abc")
-        .replace('__META_DESCRIPTION__', "abcd")
-        .replace('__META_OG_IMAGE__', "aaaa")    
+        .replace('__META_OG_TITLE__', "title")
+        .replace('__META_OG_DESCRIPTION__', "description")
+        .replace('__META_DESCRIPTION__', "desc")  
         return res.send(htmlData);  
     } catch (error) {
         console.log('erro while reading ' , error)
@@ -43,7 +42,25 @@ app.get('/',(req,res) => {
 
 })
 
-app.get('/article/:id', (req,res) => {
+app.get('/article/:id', async(req,res) => {
+    let id = req.params.id
+    try {
+        let response = await getArticle(parseInt(id))
+        try {
+            let htmlData = readIndexHtml()  
+            htmlData = (htmlData  as string)
+            .replace('__META_OG_TITLE__', response.data['heading'])
+            .replace('__META_OG_DESCRIPTION__', response.data['shortDescription'])
+            .replace('__META_DESCRIPTION__', response.data['shortDescription'])   
+            return res.send(htmlData);  
+        } catch (error) {
+            console.log('erro while reading ' , error)
+            return res.status(404).end()
+        }       
+    } catch (error) {
+        console.log('erro while fetching article ' , error)
+        return res.status(404).end()
+    }
 
 })
 
