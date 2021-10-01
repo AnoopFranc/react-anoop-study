@@ -9,9 +9,6 @@ function App() {
       <div className="app-body">
         <CAROUSELDEMO/>
       </div>
-      <div className="full-bleed ash">
-
-      </div>
     </div>
   );
 }
