@@ -8,6 +8,9 @@ function App() {
     <div className="App">
       <div className="app-body">
         <CAROUSELDEMO/>
+        <div className="full-bleed ash">
+          aaaaaaa
+        </div>
       </div>
     </div>
   );
