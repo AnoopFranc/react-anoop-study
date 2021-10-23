@@ -1,0 +1,12 @@
+.nested_list_item {
+  padding-left: 16px;
+}
+
+.nested_list_item .nested_item::before {
+  content: "\2022";
+  padding-right: 8px;
+}
+
+.nested_item_wrapper {
+  display: block;
+}
