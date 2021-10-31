@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { CAROUSELDEMO } from './pages';
-import { NestedLoopPoint } from './components';
+import { NestedLoopPoint, VideoPlayer } from './components';
 import { demoLink } from './constant';
 
 
 function App() {
+  const [video,setVideo] = useState<string[]>([]) 
+  const acceptVideo = (e:ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files !== null && e.target.files.length > 0){
+      setVideo([URL.createObjectURL(e.target.files[0])])
+    }
+  }
   return (
     <div className="App">
       <div className="app-body">
@@ -22,8 +28,21 @@ function App() {
         {/* <NestedLoopPoint
         links={demoNestedLoop.links}
         /> */}
-      </div>
+        <input
+        type="file"
+        accept="video/mp4,video/x-m4v,video/*"
+        onChange = {acceptVideo}
+        />
 
+
+      </div>
+      {video.map(vid => {
+        return(
+          <VideoPlayer
+          src={vid}
+          />
+        )
+      })}
     </div>
   );
 }
