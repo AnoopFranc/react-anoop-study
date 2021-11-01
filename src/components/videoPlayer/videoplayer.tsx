@@ -10,11 +10,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
 
     const togglePlayPause = () => {
         if(videoElementRef.current){
-            if(videoElementRef.current.paused){
-                videoElementRef.current.play()
-            }else{
-                videoElementRef.current.pause()
-            }
+            videoElementRef.current.paused?videoElementRef.current.play():videoElementRef.current.pause()
         }
     }
 
@@ -24,10 +20,31 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
         }
     }
 
+
+    const Mute = () => {
+        if(videoElementRef.current){
+            videoElementRef.current.volume = 0.0
+        }
+    }
+
     return(
-        <div>
-            <video ref={videoElementRef} src={props.src} controls autoPlay={props.autoPlay}>
+        <div className="custom_video_player_wrapper">
+            <video ref={videoElementRef} src={props.src} autoPlay={props.autoPlay}>
             </video>
+
+            <div className="custom_video_controls" >
+                <div className="control_elemennts_wrapper">
+
+                    <div onClick={togglePlayPause}>
+                    {videoElementRef.current?.paused?"play":"pause"} 
+                    </div>
+
+                    <div onClick={Mute}>
+                        mute
+                    </div>
+
+                </div>
+            </div>
         </div>
     )
 }

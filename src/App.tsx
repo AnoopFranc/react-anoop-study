@@ -7,7 +7,7 @@ import { demoLink } from './constant';
 
 
 function App() {
-  const [video,setVideo] = useState<string[]>([]) 
+  const [video,setVideo] = useState<string[]>(['https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd']) 
   const acceptVideo = (e:ChangeEvent<HTMLInputElement>) => {
     if(e.target.files !== null && e.target.files.length > 0){
       setVideo([URL.createObjectURL(e.target.files[0])])
