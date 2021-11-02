@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 interface VideoPlayerProps {
     src:string
@@ -6,11 +6,13 @@ interface VideoPlayerProps {
 }
 
 export const VideoPlayer = (props: VideoPlayerProps) => {
+    const [ispaused,setIsPaused] = useState(false)
     const videoElementRef = useRef<HTMLVideoElement>(null)
 
     const togglePlayPause = () => {
         if(videoElementRef.current){
-            videoElementRef.current.paused?videoElementRef.current.play():videoElementRef.current.pause()
+            ispaused?videoElementRef.current.play():videoElementRef.current.pause()
+            setIsPaused(!ispaused)
         }
     }
 
@@ -35,12 +37,11 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
             <div className="custom_video_controls" >
                 <div className="control_elemennts_wrapper">
 
-                    <div onClick={togglePlayPause}>
-                    {videoElementRef.current?.paused?"play":"pause"} 
+                    <div onClick={togglePlayPause} className={`video_control_play ${ispaused?"playing":"paused"}`}>
                     </div>
 
                     <div onClick={Mute}>
-                        mute
+                        Mute
                     </div>
 
                 </div>
