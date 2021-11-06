@@ -39,7 +39,13 @@ function addListeners(reader:FileReader) {
     <div className="App">
       <div className="app-body">
         <CAROUSELDEMO/>
-
+        {video.map(vid => {
+        return(
+          <VideoPlayer
+          src={vid}
+          />
+        )
+      })}
         <NestedLoopPoint
       links={demoLink.links}
       />
@@ -58,13 +64,7 @@ function addListeners(reader:FileReader) {
 
 
       </div>
-      {video.map(vid => {
-        return(
-          <VideoPlayer
-          src={vid}
-          />
-        )
-      })}
+
     </div>
   );
 }

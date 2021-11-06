@@ -66,10 +66,10 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
 
     const positionPreviewToleft = (e:any) => {
         if(previewImageElementRef.current){
-            previewImageElementRef.current.style.left = e.offsetX
+            previewImageElementRef.current.style.left = e.offsetX + 'px'
         }
         if(previewCanvasElementRef.current){
-            previewCanvasElementRef.current.style.left = e.offsetX
+            previewCanvasElementRef.current.style.left = e.offsetX + 'px'
         }
     }
 

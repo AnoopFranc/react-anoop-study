@@ -75,7 +75,7 @@
   top: 0;
 }
 
-.video_seek_element_wrapper:hover .Video_seek_preview {
+.video_seek_element_wrapper:hover .video_seek_preview {
   display: block;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .hidden_preview_canvas {
-  /* display: none; */
+  display: none;
   transform: translateX(-50%);
   left: 300px;
 }
