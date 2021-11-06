@@ -24,12 +24,13 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
 
     const seekToTime = (time:number) => {
         if(videoElementRef.current){
-            videoElementRef.current.currentTime = time
+            videoElementRef.current.currentTime = parseInt(time.toFixed(2))
         }
     }
 
     const handleSliderChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        seekToTime(parseInt(e.target.value))
+        if(videoElementRef.current)
+        seekToTime((parseInt(e.target.value)/parseInt(e.target.max))*videoElementRef.current.duration)
     }
 
     const Mute = () => {
