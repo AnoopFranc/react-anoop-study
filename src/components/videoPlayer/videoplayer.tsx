@@ -54,17 +54,9 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
             hiddenVideoElementRef.current.currentTime = time
             let video = hiddenVideoElementRef.current
             canvas.getContext('2d')?.drawImage(video, 0, 0, 150, 100)
-            canvas.toBlob(function(blob) {
-                let newImg = previewImageElementRef.current?previewImageElementRef.current:document.createElement('img'),
-                    url = URL.createObjectURL(blob);
-              
-                newImg.onload = function() {
-                  // no longer need to read the blob so it's revoked
-                  URL.revokeObjectURL(url);
-                };
-
-                newImg.src = url;
-              });
+            if(previewImageElementRef.current){
+                previewImageElementRef.current.src =  canvas.toDataURL()
+            }
         }
     }
 
