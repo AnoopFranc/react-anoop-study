@@ -28,9 +28,12 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
         }
     }
 
-    const handleSliderChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        if(videoElementRef.current)
-        seekToTime((parseInt(e.target.value)/parseInt(e.target.max))*videoElementRef.current.duration)
+    const handleSeekSliderChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        if(videoElementRef.current){
+            let seekTime = (parseInt(e.target.value)/parseInt(e.target.max))*videoElementRef.current.duration
+            seekToTime(seekTime)
+        }
+
     }
 
     const Mute = () => {
@@ -43,7 +46,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
         return (e.offsetX / e.target.clientWidth) *  parseInt(e.target.getAttribute('max'),10);
     }
 
-    const captureFrame = (time:number) => {
+    const captureVideoFrame = (time:number) => {
         if(hiddenVideoElementRef.current && previewCanvasElementRef.current){
             let canvas = previewCanvasElementRef.current
             canvas.width = 150;
@@ -65,7 +68,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
         }
     }
 
-    const positionPreviewToleft = (e:any) => {
+    const positionImagePreviewToleft = (e:any) => {
         if(previewImageElementRef.current){
             previewImageElementRef.current.style.left = e.offsetX + 'px'
         }
@@ -76,8 +79,8 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
 
     const getPreviewImageOnHover = (e:any) => {
         if(videoElementRef.current){
-            positionPreviewToleft(e)
-            captureFrame(calculateSliderPositionOnHover(e)*(videoElementRef.current.duration/100))
+            positionImagePreviewToleft(e)
+            captureVideoFrame(calculateSliderPositionOnHover(e)*(videoElementRef.current.duration/100))
         }
     }
 
@@ -115,7 +118,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
                     min={0}
                     className="custom_seek_element"
                     ref={seekRangeElementRef}
-                    onChange={handleSliderChange}
+                    onChange={handleSeekSliderChange}
                     />
                 </div>
             </div>
