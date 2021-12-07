@@ -54,6 +54,12 @@
 .video_player {
   pointer-events: none;
 }
+
+.video_player::-webkit-media-controls {
+  display: none;
+  -webkit-appearance: none;
+}
+
 .video_seek_element_wrapper {
   margin-top: 16px;
   width: 100%;

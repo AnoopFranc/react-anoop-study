@@ -86,7 +86,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
 
     return(
         <div className="custom_video_player_wrapper">
-            <video className="video_player" ref={videoElementRef} src={props.src} autoPlay={props.autoPlay}>
+            <video className="video_player" ref={videoElementRef} src={props.src} autoPlay={props.autoPlay} controls>
             </video>
             <video className="hidden_video_player" ref={hiddenVideoElementRef} src={props.src} autoPlay={props.autoPlay}>
             </video>
