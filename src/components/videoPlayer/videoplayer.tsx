@@ -7,7 +7,7 @@ interface VideoPlayerProps {
 
 export const VideoPlayer = (props: VideoPlayerProps) => {
     const [ispaused,setIsPaused] = useState(false)
-    const [hoverSeeked,setHoverSeeked] = useState<number>()
+    const [hoverSeeked,setHoverSeeked] = useState(0)
 
     const videoElementRef = useRef<HTMLVideoElement>(null)
     const hiddenVideoElementRef = useRef<HTMLVideoElement>(null)
@@ -25,6 +25,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
     const seekToTime = (time:number) => {
         if(videoElementRef.current){
             videoElementRef.current.currentTime = parseInt(time.toFixed(2))
+            setHoverSeeked((videoElementRef.current.currentTime / videoElementRef.current.duration) * 100)
         }
     }
 
@@ -47,17 +48,39 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
     }
 
     const captureVideoFrame = (time:number) => {
+        console.log("outside hidden frame")
         if(hiddenVideoElementRef.current && previewCanvasElementRef.current){
+            console.log("in hidden frame")
             let canvas = previewCanvasElementRef.current
             canvas.width = 150;
             canvas.height = 100;
             hiddenVideoElementRef.current.currentTime = time
             let video = hiddenVideoElementRef.current
             canvas.getContext('2d')?.drawImage(video, 0, 0, 150, 100)
-            if(previewImageElementRef.current){
-                previewImageElementRef.current.src =  canvas.toDataURL()
-            }
+            canvas.style.display = "block"
+            return canvas.toDataURL()
+            // if(previewImageElementRef.current){
+            //     previewImageElementRef.current.src = ""
+            //     previewImageElementRef.current.src =  canvas.toDataURL()
+            // }
         }
+    }
+
+    const getPreviewVideoFrameUrl = async(time:number) => {
+        return new Promise((resovle,reject) => {
+            try {
+                resovle(captureVideoFrame(time))
+            } catch (error) {
+                reject("")
+            }
+        })
+    }
+
+    const setPreviewImage = async (time:number) => {
+            if(previewImageElementRef.current){
+                previewImageElementRef.current.src =  await getPreviewVideoFrameUrl(time) as string
+                console.log(previewImageElementRef.current.src)
+            }
     }
 
     const positionImagePreviewToleft = (e:any) => {
@@ -70,11 +93,16 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
     }
 
     const getPreviewImageOnHover = (e:any) => {
+        if(previewImageElementRef.current) {
+            previewImageElementRef.current.src = ""
+        }
         if(videoElementRef.current){
             positionImagePreviewToleft(e)
-            captureVideoFrame(calculateSliderPositionOnHover(e)*(videoElementRef.current.duration/100))
+            setPreviewImage(calculateSliderPositionOnHover(e)*(videoElementRef.current.duration/100))
         }
     }
+
+
 
     useEffect(() => {
         if(seekRangeElementRef.current){
@@ -108,6 +136,7 @@ export const VideoPlayer = (props: VideoPlayerProps) => {
                     type="range"
                     max={100}
                     min={0}
+                    value={hoverSeeked}
                     className="custom_seek_element"
                     ref={seekRangeElementRef}
                     onChange={handleSeekSliderChange}
