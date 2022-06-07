@@ -43,7 +43,7 @@ declare interface IFilterPayload {
 export const useGetData = () =>{
 
     const [page,setPage] = useState(1)//current page filter
-    const [resultLimit,setResultLimit] = useState(10) //result limit filter
+    const [resultLimit,setResultLimit] = useState(10) //result limit filter,currently not implemented
     const [totalCount,setTotalCount] = useState(0) // total result count filter
     const [filters,setFilters] =useState<IFilterBugData>({
         platform:[],
@@ -74,7 +74,7 @@ export const useGetData = () =>{
     const [filterState,filterDispatch] = useReducer(handleFilterDispatch,[])//temp filter state
     const [finalFilterState,setFinalFiterState] = useState<IKeyValue[]>([])//input filter state
 
-    const memoizedInput = useMemo(() => {
+    const memoizedInput:IInputBugData = useMemo(() => {
         return {
             filters:finalFilterState,
             page,
@@ -87,6 +87,8 @@ export const useGetData = () =>{
         
         return getBugs(memoizedInput)
     }, [memoizedInput])
+
+    //column data for demo table
     const BUGS_COLUMN = [
         {
             key:'id',
@@ -136,13 +138,30 @@ export const useGetData = () =>{
 
     ]
 
+    /**
+     * handles selection/de-selection of option from multiselect component
+     * @param option - options selected
+     */
     const HandleMultiSelect = (option:IKeyValue) => {
         const optionIndex = filterState.findIndex(filter => filter.key === option.key && filter.value === option.value)
         optionIndex === -1?filterState.push(option):filterState.splice(optionIndex,1)
         filterDispatch({action:'add'})
     }
+
     const handleApply = () => {
         setFinalFiterState(filterState) 
+    }
+    const handlePagination = (paginationType:string,paginationValue:string|number) => {
+        switch(paginationType){
+            case 'resultCount':
+                setResultLimit(paginationValue as number)
+                break
+            case 'page':
+                setPage(paginationValue as number)
+                break
+            default:
+                setPage(paginationValue as number)
+        }
     }
 
 
@@ -155,7 +174,7 @@ export const useGetData = () =>{
         setTotalCount(resultCount)
     },[getBugsData])
 
-    return {bugsData,totalCount,filters,pages:Math.ceil(totalCount/resultLimit),HandleMultiSelect,handleApply,BUGS_COLUMN,page,resultLimit,filterState}
+    return {bugsData,totalCount,filters,pages:Math.ceil(totalCount/resultLimit),HandleMultiSelect,handleApply,BUGS_COLUMN,page,resultLimit,filterState,handlePagination}
 }
 
 

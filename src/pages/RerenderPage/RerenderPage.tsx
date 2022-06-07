@@ -7,7 +7,7 @@ import {useRef } from "react"
 
 export const RerenderPage = () => {
     const count = useRef<number>(0)
-    const {bugsData,BUGS_COLUMN,handleApply,HandleMultiSelect,totalCount,page,pages,filters,filterState,resultLimit} = useGetData()
+    const {bugsData,BUGS_COLUMN,handleApply,HandleMultiSelect,totalCount,page,pages,filters,filterState,resultLimit,handlePagination} = useGetData()
     
     console.log('rendering,page for count :',count.current)
 
@@ -16,7 +16,11 @@ export const RerenderPage = () => {
             <p>Results found {totalCount}</p>
             <div style={{display:"flex",gap:'8px'}}>
                 <p>Page: {`${page}/${pages}`}</p>
-                <p>{resultLimit}</p>
+                <select value={resultLimit} onChange={(e:React.ChangeEvent<HTMLSelectElement>) => handlePagination('resultCount',e.target.value)}>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                </select>
             </div>
         </div>
         <SelectionGrid>
