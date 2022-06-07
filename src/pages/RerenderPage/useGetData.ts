@@ -16,7 +16,6 @@ declare interface IBug {
     id: number;
     module: string;
     platform: string;
-    summary: string;
     rootCause?: string;
     reportedBy: string;
     assignedTo: string;
@@ -101,10 +100,6 @@ export const useGetData = () =>{
         {
             key:'platform',
             title:'Platform'
-        },
-        {
-            key:'summary',
-            title:'Summary'
         },
         {
             key:'severity',

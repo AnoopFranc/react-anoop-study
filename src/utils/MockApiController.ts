@@ -4,7 +4,6 @@ declare interface IBug {
     id: number;
     module: string;
     platform: string;
-    summary: string;
     rootCause?: string;
     reportedBy: string;
     assignedTo: string;
