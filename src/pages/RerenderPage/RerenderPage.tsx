@@ -7,7 +7,7 @@ import {useRef } from "react"
 
 export const RerenderPage = () => {
     const count = useRef<number>(0)
-    const {bugsData,BUGS_COLUMN,handleApply,HandleMultiSelect,totalCount,page,pages,filters,filterState,resultLimit,handlePagination} = useGetData()
+    const {bugsData,BUGS_COLUMN,handleApply,HandleMultiSelect,totalCount,page,pages,filters,filterState,resultLimit,handlePagination,handleReset} = useGetData()
     
     console.log('rendering,page for count :',count.current)
 
@@ -25,31 +25,32 @@ export const RerenderPage = () => {
         </div>
         <SelectionGrid>
             <MultiSelect
-        handleSelect={HandleMultiSelect}
-        options={filters.assignedTo.map(assign => {
-            return {
-                key:'assignedTo',
-                value:assign
-            }
-        })}
-        selected={filterState}
-        // selected={filterState.current}
-        />
+                handleSelect={HandleMultiSelect}
+                options={filters.assignedTo.map(assign => {
+                    return {
+                        key:'assignedTo',
+                        value:assign
+                    }
+                })}
+                selected={filterState}
+            />
 
-<MultiSelect
-        handleSelect={HandleMultiSelect}
-        options={filters.status.map(assign => {
-            return {
-                key:'status',
-                value:assign
-            }
-        })}
-        selected={filterState}
-        // selected={filterState.current}
-        />
+            <MultiSelect
+                handleSelect={HandleMultiSelect}
+                options={filters.status.map(assign => {
+                    return {
+                        key:'status',
+                        value:assign
+                    }
+                })}
+                selected={filterState}
+            />
         </SelectionGrid>
         <button onClick={handleApply}>
             Apply
+        </button>
+        <button onClick={handleReset}>
+            Reset
         </button>
         <DemoTable columns={BUGS_COLUMN} data={bugsData}/>
     </div>

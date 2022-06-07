@@ -146,6 +146,10 @@ export const useGetData = () =>{
     const handleApply = () => {
         setFinalFiterState(filterState) 
     }
+    const handleReset = () => {
+        filterDispatch({action:'reset'})
+        setFinalFiterState([]) 
+    }
     const handlePagination = (paginationType:string,paginationValue:string|number) => {
         switch(paginationType){
             case 'resultCount':
@@ -169,7 +173,7 @@ export const useGetData = () =>{
         setTotalCount(resultCount)
     },[getBugsData])
 
-    return {bugsData,totalCount,filters,pages:Math.ceil(totalCount/resultLimit),HandleMultiSelect,handleApply,BUGS_COLUMN,page,resultLimit,filterState,handlePagination}
+    return {bugsData,totalCount,filters,pages:Math.ceil(totalCount/resultLimit),HandleMultiSelect,handleApply,BUGS_COLUMN,page,resultLimit,filterState,handlePagination,handleReset}
 }
 
 
