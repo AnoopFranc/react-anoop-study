@@ -107,7 +107,7 @@ const getFilteredOptions = (input:IInputBugData):IResultAndFilter => {
         referenceData = [...result]
     }
     referenceData.forEach(bug => {
-        Object.entries(bug).map(([key,val] ) => {
+        Object.entries(bug).forEach(([key,val] ) => {
             const filterSet = new Set<string>()
             _filtersMap.has(key)?_filtersMap.set(key,_filtersMap.get(key).add(val)):_filtersMap.set(key,filterSet.add(val))
         })
